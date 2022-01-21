@@ -1,9 +1,18 @@
-import React from "react";
+import React, { useState } from "react";
+import Editmodal from "./Editmodal";
 
 
 
 
-const Horizontalcard=({title,description,index,deleteTask})=>{
+const Horizontalcard=({title,description,index,deleteTask,updateStorage})=>{
+    const [open , setopen]=useState(false)
+    const handleClose=()=>{
+        setopen(false)
+    }
+    const updateArray=(obj)=>{
+        updateStorage(obj,index)
+    }
+   
     const colors = [
         {
             primaryColor : "#5D93E1",
@@ -28,7 +37,7 @@ const Horizontalcard=({title,description,index,deleteTask})=>{
     ]
     const handleDelete=()=>
     {
-            deleteTask(index)
+            {deleteTask(index)}
     }
 
     return(
@@ -40,13 +49,12 @@ const Horizontalcard=({title,description,index,deleteTask})=>{
                 <p className = "mt-3">{description}</p>
 
                 <div style={{"position": "absolute", "right" : "20px", "bottom" : "20px"}}>
-                    <i className = "far fa-edit mr-3" style={{"color" : colors[index%5].primaryColor, "cursor" : "pointer"}} ></i>
+                    <i className = "far fa-edit mr-3" style={{"color" : colors[index%5].primaryColor, "cursor" : "pointer"}}  onClick={()=>setopen(true)}></i>
                     <i className="fas fa-trash-alt" style = {{"color" : colors[index%5].primaryColor, "cursor" : "pointer"}} onClick={handleDelete}></i>
                 </div>
         </div>
-        
-        </div>
-        
+            <Editmodal open={open} handleClose={handleClose} updateArray={updateArray}/>
+          </div>     
     );
 }
 export default Horizontalcard;

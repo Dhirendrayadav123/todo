@@ -4,7 +4,7 @@ import Button from 'react-bootstrap/Button'
 import Form from 'react-bootstrap/Form'
 import FloatingLabel from 'react-bootstrap/FloatingLabel'
 import Horizontalcard from './Card';
-import { Container, Row,Col } from 'react-bootstrap';
+
 
 const TodoList = ()=>{
     const [show, setShow] = useState(false);
@@ -32,6 +32,19 @@ const TodoList = ()=>{
             setlist(obj)
         }
     }, [])
+    const deleteTask=(index)=>{
+        let temp=list;
+        temp.splice(index,1)
+        localStorage.setItem("itemList",JSON.stringify(temp))
+        setlist(temp);
+        window.location.reload()
+    }
+    const updateStorage=(obj,index)=>{
+        let temp=list;
+        temp[index]=obj;
+        localStorage.setItem("itemList",JSON.stringify(temp))
+        setlist(temp);
+    }
     
 return(
         <>
@@ -40,9 +53,9 @@ return(
                 <button className="btn btn-secondary" onClick = {handleShow}> Create Task </button>
             </div>
             <div className="task-container ">
-                <ul>
-                {list.map((obj , index)=><Horizontalcard title={obj.title} description={obj.description} index={index}/>)}
-                </ul>
+                
+                {list.map((obj , index)=><Horizontalcard title={obj.title} description={obj.description} index={index} deleteTask={deleteTask} updateStorage={updateStorage}/>)}
+                
             </div>
             <Modal show={show} >
                 <Modal.Header className="title">Create Task</Modal.Header>
